@@ -106,3 +106,23 @@ include::../shared-doc/cd-deploy-project.adoc[leveloffset=+1]
 // include::../shared-doc/cd-post-deployment-tasks.adoc[leveloffset=+1]
 
 endif::[]
+
+//*************************************************
+// Remote ActiveMQ Artemis integration
+//*************************************************
+
+== Remote ActiveMQ Artemis integration
+
+For testing a remote ActiveMQ Artemis integration run ActiveMQ Artemis locally with user/pass admin/admin and add
+following to the standalone-full.xml JBoss EAP 7.2 configuration:
+
+[source,options="nowrap"]
+----
+<remote-connector name="remote-artemis" socket-binding="remote-artemis"/>
+
+<pooled-connection-factory name="remote-artemis" entries="java:/jms/RemoteArtemisCF" connectors="remote-artemis" user="admin" password="admin"/>
+
+<outbound-socket-binding name="remote-artemis">
+    <remote-destination host="localhost" port="61616"/>
+</outbound-socket-binding>
+---
