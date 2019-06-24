@@ -16,6 +16,8 @@
  */
 package org.jboss.as.quickstarts.mdb;
 
+import org.jboss.ejb3.annotation.ResourceAdapter;
+
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.jms.JMSException;
@@ -23,7 +25,6 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 import java.util.logging.Logger;
-import org.jboss.ejb3.annotation.ResourceAdapter;
 
 
 /**
@@ -34,7 +35,7 @@ import org.jboss.ejb3.annotation.ResourceAdapter;
  */
 @ResourceAdapter("remote-artemis")
 @MessageDriven(name = "HelloWorldQueueRemoteMDB", activationConfig = {
-        @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "queue/HELLOWORLDMDBQueueRemote"),
+        @ActivationConfigProperty(propertyName = "destination", propertyValue = "HelloWorldMDBQueueRemote25"),
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
         @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge")})
 public class HelloWorldQueueRemoteMDB implements MessageListener {

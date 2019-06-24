@@ -116,13 +116,25 @@ endif::[]
 For testing a remote ActiveMQ Artemis integration run ActiveMQ Artemis locally with user/pass admin/admin and add
 following to the standalone-full.xml JBoss EAP 7.2 configuration:
 
+
 [source,options="nowrap"]
 ----
-<remote-connector name="remote-artemis" socket-binding="remote-artemis"/>
+Under:
+<subsystem xmlns="urn:jboss:domain:messaging-activemq:4.0">
+    <server name="default">
+Add:
+        <remote-connector name="remote-artemis" socket-binding="remote-artemis"/>
 
-<pooled-connection-factory name="remote-artemis" entries="java:/jms/RemoteArtemisCF" connectors="remote-artemis" user="admin" password="admin"/>
+        <pooled-connection-factory name="remote-artemis" entries="java:/jms/RemoteArtemisCF" connectors="remote-artemis" user="admin" password="admin"/>
 
-<outbound-socket-binding name="remote-artemis">
-    <remote-destination host="localhost" port="61616"/>
-</outbound-socket-binding>
+Under:
+<socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
+
+Add:
+    <outbound-socket-binding name="remote-artemis">
+        <remote-destination host="localhost" port="61616"/>
+    </outbound-socket-binding>
 ---
+
+Deploy application, open servlet:
+http://localhost:8080/helloworld-mdb/HelloWorldMDBServletClientRemote
